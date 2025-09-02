@@ -1031,6 +1031,50 @@ function tryOpenApp() {
     if (modal) modal.remove();
 }
 
+// Mobile Navigation Handler
+class MobileNavigation {
+    constructor() {
+        this.toggle = document.getElementById('mobileNavToggle');
+        this.menu = document.getElementById('mobileNavMenu');
+        this.navButtons = document.querySelectorAll('.mobile-nav-btn');
+        
+        this.init();
+    }
+    
+    init() {
+        // Toggle mobile menu
+        this.toggle?.addEventListener('click', () => {
+            this.menu.classList.toggle('active');
+            this.toggle.textContent = this.menu.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Handle mobile nav clicks
+        this.navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Close mobile menu
+                this.menu.classList.remove('active');
+                this.toggle.textContent = '☰';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.toggle?.contains(e.target) && !this.menu?.contains(e.target)) {
+                this.menu?.classList.remove('active');
+                if (this.toggle) this.toggle.textContent = '☰';
+            }
+        });
+        
+        // Close menu on resize to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 968) {
+                this.menu?.classList.remove('active');
+                if (this.toggle) this.toggle.textContent = '☰';
+            }
+        });
+    }
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.portfolio = new AcademicPortfolio();
@@ -1038,6 +1082,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new ContactForm();
     new ResponsiveHandler();
     new RetroEasterEgg();
+    new MobileNavigation();
     
     console.log('🎓 Academic Portfolio initialized successfully!');
     console.log('Navigation: Arrow keys, scroll wheel, or click navigation buttons');

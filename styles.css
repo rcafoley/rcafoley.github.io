@@ -1048,6 +1048,43 @@ body {
     }
 }
 
+/* Mobile Navigation Toggle */
+.mobile-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.mobile-nav-menu.active {
+    display: block;
+}
+
+.mobile-nav-menu .nav-btn {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
 @media (max-width: 968px) {
     .horizontal-container {
         flex-direction: column;
@@ -1060,8 +1097,34 @@ body {
     .panel {
         width: 100vw;
         height: auto;
-        min-height: calc(100vh - 80px);
-        padding: 2rem 1rem;
+        min-height: 100vh;
+        padding: 1.5rem 1rem;
+        box-sizing: border-box;
+    }
+    
+    .navigation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1001;
+        padding: 1rem;
+        background: rgba(26, 26, 26, 0.95);
+        backdrop-filter: blur(10px);
+    }
+    
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .mobile-nav-toggle {
+        display: block;
     }
     
     .hero-container {
@@ -1069,6 +1132,7 @@ body {
         text-align: center;
         gap: 2rem;
         min-height: auto;
+        padding-top: 2rem;
     }
     
     .hero-content {
@@ -1080,17 +1144,38 @@ body {
     }
     
     .profile-image {
-        width: 400px;
-        height: 400px;
+        width: 250px;
+        height: 250px;
     }
     
     .hero-name {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        padding: 0 1rem;
     }
     
     .hero-stats {
         justify-content: center;
-        gap: 2rem;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        min-width: 100px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
     }
     
     .research-grid,
@@ -1099,6 +1184,14 @@ body {
         grid-template-columns: 1fr;
         height: auto;
         gap: 1.5rem;
+        min-height: auto;
+    }
+    
+    .research-card,
+    .tool-card,
+    .blog-card {
+        padding: 1.2rem;
+        min-height: auto;
     }
     
     .contact-content {
@@ -1106,44 +1199,118 @@ body {
         gap: 2rem;
     }
     
-    .cv-item {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+    .contact-form {
+        padding: 1.5rem;
     }
     
-    .nav-links {
-        display: none;
+    .cv-simple {
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+    
+    .cv-description {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .cv-actions {
+        flex-direction: column;
+        gap: 1rem;
     }
     
     .scroll-indicators {
         display: none;
     }
+    
+    .progress-bar {
+        height: 3px;
+    }
+    
+    /* Better spacing for mobile */
+    .panel-content {
+        max-width: 100%;
+        padding: 0;
+    }
 }
 
 @media (max-width: 640px) {
     .navigation {
-        padding: 1rem;
+        padding: 0.8rem 1rem;
+    }
+    
+    .panel {
+        padding: 1rem 0.8rem;
+        min-height: calc(100vh - 60px);
     }
     
     .hero-name {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        line-height: 1.1;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+        padding: 0 0.5rem;
     }
     
     .section-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
     }
     
     .hero-stats {
-        gap: 1.5rem;
+        gap: 1rem;
+        margin-top: 1.5rem;
     }
     
     .stat-number {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
     }
     
     .profile-image {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
+    }
+    
+    .research-card,
+    .tool-card,
+    .blog-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-title, .tool-title, .blog-title {
+        font-size: 0.8rem;
+        line-height: 1.2;
+    }
+    
+    .card-description, .tool-description, .blog-excerpt {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    .contact-form {
+        padding: 1.2rem;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.8rem;
     }
 }
 
