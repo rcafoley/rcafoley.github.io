@@ -507,6 +507,20 @@ body {
     padding-top: 1rem;
 }
 
+.publication-link {
+    color: #E08F71;
+    text-decoration: underline;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.publication-link:hover {
+    color: #CC7A5C;
+}
+
 /* Tools Section */
 .tools-grid {
     display: grid;
