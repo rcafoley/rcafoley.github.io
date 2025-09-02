@@ -1,2 +1,2 @@
 # rcafoley.github.io
-Ryan Foley's research website
+Please check out my website for more updates and thoughts on fatigue, ergonomics, academia, and neuromuscular physiology!
