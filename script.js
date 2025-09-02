@@ -905,21 +905,38 @@ class BlogManager {
 
     async loadPosts() {
         try {
-            // In production, this would fetch from your GitHub repo
-            // For now, we'll load the sample post
             const posts = await this.fetchPosts();
             this.displayPosts(posts);
         } catch (error) {
-            console.log('Blog posts will be loaded when hosted on GitHub Pages');
+            console.log('Loading sample posts...');
             this.displaySamplePost();
         }
     }
 
     async fetchPosts() {
-        // This will work when hosted on GitHub Pages
-        const response = await fetch('/_posts/2025-08-31-welcome-post.md');
-        const content = await response.text();
-        return this.parseMarkdown(content);
+        try {
+            // Fetch Jekyll-generated posts JSON
+            const response = await fetch('/posts.json');
+            if (!response.ok) throw new Error('Posts not available');
+            const data = await response.json();
+            return data.posts;
+        } catch (error) {
+            // Fallback to hardcoded posts for local development
+            return [
+                {
+                    title: "Welcome to My Research Blog",
+                    date: "2025-01-15",
+                    excerpt: "Welcome to my research blog where I'll be sharing insights from my work in neuromechanics, ergonomics, and fatigue prediction modeling.",
+                    tags: ["research", "biomechanics", "ergonomics"]
+                },
+                {
+                    title: "Understanding Motor Unit Fatigue",
+                    date: "2024-12-10", 
+                    excerpt: "Exploring the complexities of motor unit fatigue and how we can develop better predictive models for real-world applications.",
+                    tags: ["motor-units", "fatigue", "modeling"]
+                }
+            ];
+        }
     }
 
     parseMarkdown(content) {

@@ -1,0 +1,53 @@
+# Jekyll Configuration for Academic Portfolio
+title: Ryan Foley - Academic Portfolio
+email: ryan.foley@ontariotechu.ca
+description: >-
+  Researcher • Academic • Innovator specializing in Neuromechanics & Ergonomics
+  with a focus on fatigue prediction and muscle physiology.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site
+github_username: rcafoley
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:categories/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Ryan Foley"
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# Timezone
+timezone: America/Toronto
+
+# Pagination
+paginate: 5
+paginate_path: "/blog/page:num/"
