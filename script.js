@@ -32,7 +32,21 @@ class AcademicPortfolio {
     setupNavigation() {
         this.navButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                this.goToSection(index);
+                if (window.innerWidth <= 968) {
+                    // Mobile: scroll to section directly
+                    const targetPanel = document.getElementById(this.getSectionId(index));
+                    if (targetPanel) {
+                        targetPanel.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        this.currentSection = index;
+                        this.updateUI();
+                    }
+                } else {
+                    // Desktop: use horizontal scrolling
+                    this.goToSection(index);
+                }
             });
         });
     }
@@ -49,6 +63,9 @@ class AcademicPortfolio {
 
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
+            // Only enable keyboard navigation on desktop
+            if (window.innerWidth <= 968) return;
+            
             if (this.isTransitioning) return;
             
             switch (e.key) {
@@ -81,6 +98,9 @@ class AcademicPortfolio {
         const threshold = 100; // Lower threshold = more sensitive
         
         document.addEventListener('wheel', (e) => {
+            // Disable horizontal scrolling behavior on mobile
+            if (window.innerWidth <= 968) return;
+            
             if (this.isTransitioning) return;
             
             e.preventDefault();
@@ -105,8 +125,11 @@ class AcademicPortfolio {
             }, 150);
         }, { passive: false });
         
-        // Add trackpad/touchpad support for horizontal scrolling
+        // Add trackpad/touchpad support for horizontal scrolling (desktop only)
         document.addEventListener('wheel', (e) => {
+            // Disable horizontal scrolling behavior on mobile
+            if (window.innerWidth <= 968) return;
+            
             if (this.isTransitioning || Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
             
             if (Math.abs(e.deltaX) > 50) {
@@ -128,11 +151,17 @@ class AcademicPortfolio {
         const minSwipeDistance = 50;
         
         document.addEventListener('touchstart', (e) => {
+            // Only track touch on desktop for horizontal navigation
+            if (window.innerWidth <= 968) return;
+            
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
         }, { passive: true });
         
         document.addEventListener('touchend', (e) => {
+            // Only handle touch navigation on desktop
+            if (window.innerWidth <= 968) return;
+            
             if (this.isTransitioning) return;
             
             touchEndX = e.changedTouches[0].clientX;
