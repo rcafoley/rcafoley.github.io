@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Academic Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-brand">
+            <span>Portfolio</span>
+        </div>
+        <div class="nav-links">
+            <button class="nav-btn" data-section="home">Home</button>
+            <button class="nav-btn" data-section="research">Research</button>
+            <button class="nav-btn" data-section="tools">Tools</button>
+            <button class="nav-btn" data-section="blog">Blog</button>
+            <button class="nav-btn" data-section="cv">CV</button>
+            <button class="nav-btn" data-section="contact">Contact</button>
+        </div>
+        <div class="nav-progress">
+            <div class="progress-bar"></div>
+            <span class="section-number">01</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="horizontal-container">
+        <!-- Section 1: Home/Splash -->
+        <section class="panel" id="home" data-section="01">
+            <div class="panel-content">
+                <div class="hero-container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="hero-greeting">Hi, I'm</span>
+                            <span class="hero-name">Ryan Foley</span>
+                        </h1>
+                        <p class="hero-subtitle">Researcher • Academic • Innovator</p>
+                        <div class="hero-bio">
+                            <p>I specialize in Neuromechanics & Ergonomics with a focus on fatigue prediction and muscle physiology. My work explores the intersection of biomechanics and workplace ergonomics, contributing to advancing our understanding of human performance optimization.</p>
+                            <p>Currently a PhD Candidate at Ontario Tech University, I've published peer-reviewed research and developed tools that contribute to the basic understanding of neuromuscular fatigue and application in manufacturing settings.</p>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">9</span>
+                                <span class="stat-label">Journal Articles</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">11</span>
+                                <span class="stat-label">Conference Papers</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">30</span>
+                                <span class="stat-label">Presentations</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="profile-image">
+                            <img src="photos/portrait.jpg" alt="Ryan Foley" class="profile-photo" id="profilePhoto">
+                        </div>
+                        <div class="floating-elements">
+                            <div class="element element-1"></div>
+                            <div class="element element-2"></div>
+                            <div class="element element-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Research -->
+        <section class="panel" id="research" data-section="02">
+            <div class="panel-content">
+                <div class="section-header">
+                    <h2 class="section-title">Research & Publications</h2>
+                </div>
+                <div class="research-grid">
+                    <div class="research-card featured">
+                        <div class="card-header">
+                            <span class="card-tag">Featured</span>
+                            <span class="card-year">2025</span>
+                        </div>
+                        <h3 class="card-title">A comprehensive scoping review and meta-analysis of upper limb strength asymmetry</h3>
+                        <p class="card-description">A systematic review examining handedness effects on upper limb strength, providing comprehensive evidence for strength asymmetries across populations.</p>
+                        <div class="card-metrics">
+                            <span class="metric">Scientific Reports</span>
+                            <span class="metric">Vol. 15, No. 4636</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="https://scholar.google.com/scholar?q=A+comprehensive+scoping+review+and+meta-analysis+of+upper+limb+strength+asymmetry+Foley" target="_blank" class="btn-primary">🔍</a>
+                        </div>
+                    </div>
+                    <div class="research-card">
+                        <div class="card-header">
+                            <span class="card-year">2019</span>
+                        </div>
+                        <h3 class="card-title">Estimates of persistent inward current in human motor neurons during postural sway</h3>
+                        <p class="card-description">Investigation into motor neuron excitability during postural control, revealing insights into spinal mechanisms underlying balance maintenance.</p>
+                        <div class="card-metrics">
+                            <span class="metric">Journal of Neurophysiology</span>
+                            <span class="metric">Vol. 122, No. 5</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="https://scholar.google.com/scholar?q=Estimates+of+persistent+inward+current+in+human+motor+neurons+during+postural+sway+Foley" target="_blank" class="btn-primary">🔍</a>
+                        </div>
+                    </div>
+                    <div class="research-card">
+                        <div class="card-header">
+                            <span class="card-year">2017</span>
+                        </div>
+                        <h3 class="card-title">Effects of a band loop on lower extremity muscle activity and kinematics during the barbell squat</h3>
+                        <p class="card-description">Biomechanical analysis examining how resistance bands affect squat mechanics and muscle activation patterns during strength training.</p>
+                        <div class="card-metrics">
+                            <span class="metric">International Journal of Sports Physical Therapy</span>
+                            <span class="metric">Vol. 12, No. 4</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="https://scholar.google.com/scholar?q=Effects+of+a+band+loop+on+lower+extremity+muscle+activity+and+kinematics+during+the+barbell+squat+Foley" target="_blank" class="btn-primary">🔍</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-footer">
+                    <div class="explore-more">
+                        <p>Explore more on:</p>
+                        <div class="profile-links">
+                            <a href="https://scholar.google.ca/citations?user=IfJohqAAAAAJ&hl=en" target="_blank" class="btn-secondary">Google Scholar</a>
+                            <a href="https://orcid.org/0000-0003-1598-7189" target="_blank" class="btn-secondary">ORCID</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 3: Tools -->
+        <section class="panel" id="tools" data-section="03">
+            <div class="panel-content">
+                <div class="section-header">
+                    <h2 class="section-title">Tools & Software</h2>
+                    <p class="section-subtitle">Open-source contributions and research tools</p>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3 class="tool-title">MU Edit To OpenHDEMG</h3>
+                        <p class="tool-description">Tool for converting MUEdit data to OpenHDEMG format. Facilitates seamless data processing workflows for high-density EMG analysis.</p>
+                        <div class="tool-stats">
+                            <span class="stat">Data Processing</span>
+                            <span class="stat">EMG Analysis</span>
+                        </div>
+                        <div class="tool-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">EMG</span>
+                            <span class="tech-tag">Data Processing</span>
+                        </div>
+                        <div class="tool-actions">
+                            <a href="https://github.com/rcafoley/MUEditToOpenHDEMG" target="_blank" class="btn-primary">GitHub</a>
+                        </div>
+                    </div>
+                    <div class="tool-card">
+                        <h3 class="tool-title">Work Profile Generator</h3>
+                        <p class="tool-description">A worksheet that takes several force profile inputs of jobs or cycles and can append them to create complex work schedules for use in force-time history dependent fatigue modelling use cases.</p>
+                        <div class="tool-stats">
+                            <span class="stat">Excel Tool</span>
+                            <span class="stat">Fatigue Modeling</span>
+                        </div>
+                        <div class="tool-tech">
+                            <span class="tech-tag">Excel</span>
+                            <span class="tech-tag">VBA</span>
+                            <span class="tech-tag">Force Profiles</span>
+                            <span class="tech-tag">Work Scheduling</span>
+                        </div>
+                        <div class="tool-actions">
+                            <a href="Work Schedule Generator for Fatigue Modelling/FoleyFatigueModellingWorkScheduleGenerator - 2024-05-04-FINAL.xlsm" download class="btn-primary">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Blog -->
+        <section class="panel" id="blog" data-section="04">
+            <div class="panel-content">
+                <div class="section-header">
+                    <h2 class="section-title">Latest Insights</h2>
+                    <p class="section-subtitle">Thoughts on research, technology, and academia</p>
+                </div>
+                <div class="blog-grid">
+                    <!-- Blog posts will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: CV -->
+        <section class="panel" id="cv" data-section="05">
+            <div class="panel-content">
+                <div class="cv-simple">
+                    <div class="section-header">
+                        <h2 class="section-title">Curriculum Vitae</h2>
+                    </div>
+                    <div class="cv-content">
+                        <p class="cv-description">My complete academic curriculum vitae includes my education, research publications, work experience, grants, awards, teaching experience, and professional service contributions.</p>
+                        <a href="cv/Ryan_Foley_CV.pdf" download class="btn-primary cv-download-btn">Download CV (PDF)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Contact -->
+        <section class="panel" id="contact" data-section="06">
+            <div class="panel-content">
+                <div class="section-header">
+                    <h2 class="section-title">Let's Connect</h2>
+                    <p class="section-subtitle">Open to collaborations, discussions, and opportunities</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">E</div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>ryan.foley@ontariotechu.ca</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">P</div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>416.268.6797</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">O</div>
+                            <div class="contact-details">
+                                <h4>Position</h4>
+                                <p>Kinesiology Lab Technician, Instructor, PhD Candidate<br>Faculty of Health Sciences<br>Ontario Tech University</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">L</div>
+                            <div class="contact-details">
+                                <h4>Links</h4>
+                                <div class="social-links">
+                                    <a href="https://scholar.google.ca/citations?user=IfJohqAAAAAJ&hl=en" target="_blank" class="social-link">Google Scholar</a>
+                                    <a href="https://orcid.org/0000-0003-1598-7189" target="_blank" class="social-link">ORCID</a>
+                                    <a href="https://github.com/rcafoley" target="_blank" class="social-link">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3 class="form-title">Send a Message</h3>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Your Message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scroll Indicators -->
+    <div class="scroll-indicators">
+        <div class="scroll-arrow scroll-left" id="scrollLeft">
+            <span>←</span>
+        </div>
+        <div class="scroll-arrow scroll-right" id="scrollRight">
+            <span>→</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
