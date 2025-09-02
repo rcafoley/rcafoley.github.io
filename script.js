@@ -927,13 +927,111 @@ class BlogManager {
                     title: "Welcome to My Research Blog",
                     date: "2025-01-15",
                     excerpt: "Welcome to my research blog where I'll be sharing insights from my work in neuromechanics, ergonomics, and fatigue prediction modeling.",
-                    tags: ["research", "biomechanics", "ergonomics"]
+                    tags: ["research", "biomechanics", "ergonomics"],
+                    content: `# Welcome to My Research Blog
+
+I'm excited to launch this blog as a platform to share insights from my research in neuromechanics and ergonomics. As a PhD candidate at Ontario Tech University, I've been deeply involved in understanding the complex relationships between biomechanics and workplace ergonomics.
+
+## What You Can Expect
+
+In this blog, I'll be sharing:
+
+- **Research Updates**: Insights from my ongoing work in fatigue prediction and muscle physiology
+- **Methodology Deep Dives**: Detailed explanations of the techniques and approaches I use in my research  
+- **Industry Applications**: How academic research translates to real-world ergonomic solutions
+- **Tool Development**: Updates on the open-source tools I'm developing for the research community
+
+## My Current Research Focus
+
+![Research Focus](/photos/portrait.jpg)
+*Research in action: Exploring the intersection of biomechanics, ergonomics, and human performance*
+
+My work centers on developing predictive models for neuromuscular fatigue, particularly in manufacturing settings. This involves:
+
+- High-density EMG analysis using advanced signal processing techniques
+- Motor unit decomposition and analysis
+- Force-time history dependent fatigue modeling
+- Real-world application in industrial ergonomics
+
+## Recent Highlights
+
+I recently published a comprehensive scoping review and meta-analysis of upper limb strength asymmetry in *Scientific Reports*, which provides new evidence for understanding handedness effects across populations. This work builds on years of research into motor neuron excitability and postural control.
+
+## Looking Ahead
+
+I'm particularly excited about the intersection of traditional biomechanical research and modern data science approaches. The tools I'm developing, like the MU Edit to OpenHDEMG converter, are designed to make advanced EMG analysis more accessible to researchers worldwide.
+
+Stay tuned for more updates as I continue to explore the fascinating world of human movement and muscle physiology!
+
+*Have questions about my research or want to collaborate? Feel free to reach out through my contact page or find me on [Google Scholar](https://scholar.google.ca/citations?user=IfJohqAAAAAJ&hl=en).*`
                 },
                 {
-                    title: "Understanding Motor Unit Fatigue",
+                    title: "Understanding Motor Unit Fatigue: A Deep Dive into Predictive Modeling",
                     date: "2024-12-10", 
                     excerpt: "Exploring the complexities of motor unit fatigue and how we can develop better predictive models for real-world applications.",
-                    tags: ["motor-units", "fatigue", "modeling"]
+                    tags: ["motor-units", "fatigue", "modeling"],
+                    content: `# Understanding Motor Unit Fatigue: A Deep Dive into Predictive Modeling
+
+Motor unit fatigue is one of the most fascinating and complex phenomena in human physiology. As someone who spends countless hours analyzing EMG signals and developing fatigue prediction models, I've come to appreciate both the elegance and the challenges of understanding how our muscles tire.
+
+## What Are Motor Units?
+
+Before diving into fatigue, let's establish what we're working with. A motor unit consists of a motor neuron and all the muscle fibers it innervates. These are the functional units of muscle contraction, and they're recruited in a highly organized manner based on the force demands of the task.
+
+![Motor Unit Recruitment](/photos/2023.04.06-FHS_UG_TeachingLabs-405925.jpg)
+*Figure 1: Teaching lab setup for motor unit analysis - demonstrating EMG electrode placement for research*
+
+## The Fatigue Process
+
+Fatigue isn't just about muscles getting tired – it's a complex cascade of events involving:
+
+- **Neural factors**: Changes in motor unit firing rates and recruitment patterns
+- **Metabolic factors**: Accumulation of metabolites and depletion of energy stores  
+- **Mechanical factors**: Changes in force-generating capacity of muscle fibers
+- **Psychological factors**: Perception of effort and motivation
+
+## Predictive Modeling Challenges
+
+Creating accurate fatigue models is challenging because:
+
+1. **Individual Variability**: People fatigue differently based on training, genetics, and fiber type composition
+2. **Task Specificity**: Fatigue patterns vary dramatically between sustained contractions, intermittent work, and dynamic movements
+3. **Multi-factorial Nature**: So many variables influence fatigue that isolating individual contributions is difficult
+
+## My Approach
+
+In my research, I focus on developing force-time history dependent models that can account for:
+
+- Previous work history
+- Recovery periods
+- Individual muscle characteristics
+- Real-world work patterns
+
+The goal is to create models that are both scientifically accurate and practically applicable in industrial settings.
+
+## Real-World Applications
+
+This research has direct implications for:
+
+- **Workplace Design**: Optimizing work-rest cycles to prevent injury
+- **Athletic Performance**: Understanding training load and recovery
+- **Rehabilitation**: Monitoring progress and preventing re-injury
+- **Assistive Technology**: Developing adaptive systems that respond to user fatigue
+
+## Tools and Techniques
+
+I rely heavily on high-density EMG to capture motor unit behavior, combined with advanced signal processing techniques. The open-source tools I develop help make these sophisticated analyses accessible to other researchers.
+
+![EMG Signal Analysis](/photos/Screenshot 2023-09-22 150039.png)
+*Figure 2: Example of data analysis workflow - this represents the type of signal processing used in motor unit research*
+
+## Looking Forward
+
+The future of fatigue modeling lies in integrating multiple data streams – EMG, force, kinematics, and even wearable sensor data – into comprehensive models that can adapt to individual users in real-time.
+
+This is an exciting time to be working in this field, as we're beginning to bridge the gap between laboratory research and practical applications that can improve people's working lives.
+
+*What aspects of fatigue modeling are you most interested in? I'd love to hear from other researchers working in this space!*`
                 }
             ];
         }
@@ -999,7 +1097,7 @@ class BlogManager {
                     </div>
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-excerpt">${post.excerpt}</p>
-                    <a href="#" class="blog-read-more btn-primary">Read More</a>
+                    <button class="blog-read-more btn-primary" onclick="openBlogPost('${post.title.replace(/'/g, "\\'")}', '${formattedDate}', \`${post.content ? post.content.replace(/`/g, '\\`').replace(/\$/g, '\\$') : post.excerpt}\`)">Read More</button>
                 </div>
             </article>
         `;
@@ -1010,6 +1108,129 @@ class BlogManager {
 AcademicPortfolio.prototype.loadBlogPosts = function() {
     this.blogManager = new BlogManager();
 };
+
+// Open Blog Post Modal
+function openBlogPost(title, date, content) {
+    const modal = document.createElement('div');
+    modal.className = 'blog-post-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 10000;
+        color: #1a1a1a;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        overflow-y: auto;
+        padding: 2rem;
+        box-sizing: border-box;
+    `;
+    
+    // Process markdown-like content for display
+    let processedContent = content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^- (.*$)/gim, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^(?!<[h|u|l])/gm, '<p>')
+        .replace(/(?<!>)$/gm, '</p>')
+        .replace(/<p><\/p>/g, '')
+        .replace(/<p>(<[h|u])/g, '$1')
+        .replace(/(<\/[h|u].*>)<\/p>/g, '$1');
+    
+    modal.innerHTML = `
+        <div style="
+            background: #FDF5E6; 
+            padding: 3rem; 
+            border-radius: 16px; 
+            max-width: 800px; 
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid #E08F71;
+            position: relative;
+        ">
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: #E08F71;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            ">&times;</button>
+            <h1 style="color: #E08F71; margin-bottom: 0.5rem; font-size: 2rem;">${title}</h1>
+            <p style="color: #666; margin-bottom: 2rem; font-style: italic;">${date}</p>
+            <div class="blog-post-content" style="line-height: 1.6;">${processedContent}</div>
+        </div>
+    `;
+    
+    // Disable background scrolling and store current scroll position
+    const currentScrollY = window.scrollY;
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${currentScrollY}px`;
+    document.body.style.width = '100%';
+    
+    document.body.appendChild(modal);
+    
+    // Prevent scroll events from propagating to background
+    modal.addEventListener('wheel', (e) => {
+        e.stopPropagation();
+    });
+    
+    modal.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+    });
+    
+    // Function to close modal and re-enable scrolling
+    const closeModal = () => {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, currentScrollY);
+        modal.remove();
+        document.removeEventListener('keydown', handleEscape);
+    };
+    
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Close on escape key
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
+    
+    // Update close button to use closeModal function
+    const closeButton = modal.querySelector('button');
+    if (closeButton) {
+        closeButton.onclick = closeModal;
+    }
+}
 
 // Launch Motor Unit Fatigue Model App
 function launchFatigueApp() {
