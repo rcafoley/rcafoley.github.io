@@ -290,7 +290,6 @@ class AcademicPortfolio {
         const sectionTitles = [
             'Home - Academic Portfolio',
             'Research - Academic Portfolio',
-            'Assists - Academic Portfolio', 
             'Tools - Academic Portfolio',
             'Blog - Academic Portfolio',
             'CV - Academic Portfolio',
@@ -926,7 +925,7 @@ class BlogManager {
                 {
                     title: "Welcome to My Research Blog",
                     date: "2025-01-15",
-                    excerpt: "Welcome to my research blog where I'll be sharing insights from my work in neuromechanics, ergonomics, and fatigue prediction modeling.",
+                    excerpt: "Launching my research blog to share insights from neuromechanics and ergonomics work, including methodology deep-dives, industry applications, and tool development updates.",
                     tags: ["research", "biomechanics", "ergonomics"],
                     content: `# Welcome to My Research Blog
 
@@ -968,7 +967,7 @@ Stay tuned for more updates as I continue to explore the fascinating world of hu
                 {
                     title: "Understanding Motor Unit Fatigue: A Deep Dive into Predictive Modeling",
                     date: "2024-12-10", 
-                    excerpt: "Exploring the complexities of motor unit fatigue and how we can develop better predictive models for real-world applications.",
+                    excerpt: "Motor unit fatigue involves complex neural, metabolic, and mechanical factors. This post explores the challenges of creating accurate predictive models and my approach to force-time history dependent modeling.",
                     tags: ["motor-units", "fatigue", "modeling"],
                     content: `# Understanding Motor Unit Fatigue: A Deep Dive into Predictive Modeling
 
@@ -1085,6 +1084,9 @@ This is an exciting time to be working in this field, as we're beginning to brid
         });
 
         const tags = Array.isArray(post.tags) ? post.tags : (post.tags ? post.tags.split(',') : []);
+        
+        // Ensure we only show the excerpt, not the full content
+        const displayExcerpt = post.excerpt || (post.content ? post.content.substring(0, 150) + '...' : '');
 
         return `
             <article class="blog-card">
@@ -1096,8 +1098,8 @@ This is an exciting time to be working in this field, as we're beginning to brid
                         </div>
                     </div>
                     <h3 class="blog-title">${post.title}</h3>
-                    <p class="blog-excerpt">${post.excerpt}</p>
-                    <button class="blog-read-more btn-primary" onclick="openBlogPost('${post.title.replace(/'/g, "\\'")}', '${formattedDate}', \`${post.content ? post.content.replace(/`/g, '\\`').replace(/\$/g, '\\$') : post.excerpt}\`)">Read More</button>
+                    <p class="blog-excerpt">${displayExcerpt}</p>
+                    <button class="blog-read-more btn-primary" onclick="openBlogPost(\`${post.title.replace(/`/g, '\\`')}\`, '${formattedDate}', \`${(post.content || post.excerpt).replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">Read More</button>
                 </div>
             </article>
         `;
