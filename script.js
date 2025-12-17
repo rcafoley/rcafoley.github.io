@@ -1,184 +1,30 @@
-// Academic Portfolio - Interactive Horizontal Scrolling
+// Academic Portfolio - Tab-Based Navigation
 class AcademicPortfolio {
     constructor() {
         this.currentSection = 0;
         this.totalSections = 6;
-        this.isTransitioning = false;
-        this.container = document.querySelector('.horizontal-container');
         this.navButtons = document.querySelectorAll('.nav-btn');
-        this.progressBar = document.querySelector('.progress-bar::after') || document.querySelector('.progress-bar');
         this.sectionNumber = document.querySelector('.section-number');
-        this.scrollLeftBtn = document.getElementById('scrollLeft');
-        this.scrollRightBtn = document.getElementById('scrollRight');
-        
+
         this.init();
     }
 
     init() {
         this.setupNavigation();
-        this.setupScrollButtons();
-        this.setupKeyboardNavigation();
-        this.setupMouseWheel();
-        this.setupTouchNavigation();
         this.setupProgressTracking();
         this.updateUI();
-        this.addAnimationObserver();
         this.loadBlogPosts();
-        
-        // Initial animation
-        this.animateCurrentSection();
+
+        // Show first section by default
+        this.goToSection(0);
     }
 
     setupNavigation() {
         this.navButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                if (window.innerWidth <= 968) {
-                    // Mobile: scroll to section directly
-                    const targetPanel = document.getElementById(this.getSectionId(index));
-                    if (targetPanel) {
-                        targetPanel.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        this.currentSection = index;
-                        this.updateUI();
-                    }
-                } else {
-                    // Desktop: use horizontal scrolling
-                    this.goToSection(index);
-                }
+                this.goToSection(index);
             });
         });
-    }
-
-    setupScrollButtons() {
-        this.scrollLeftBtn?.addEventListener('click', () => {
-            this.previousSection();
-        });
-        
-        this.scrollRightBtn?.addEventListener('click', () => {
-            this.nextSection();
-        });
-    }
-
-    setupKeyboardNavigation() {
-        document.addEventListener('keydown', (e) => {
-            // Only enable keyboard navigation on desktop
-            if (window.innerWidth <= 968) return;
-            
-            if (this.isTransitioning) return;
-            
-            switch (e.key) {
-                case 'ArrowLeft':
-                case 'ArrowUp':
-                    e.preventDefault();
-                    this.previousSection();
-                    break;
-                case 'ArrowRight':
-                case 'ArrowDown':
-                case ' ':
-                    e.preventDefault();
-                    this.nextSection();
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    this.goToSection(0);
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    this.goToSection(this.totalSections - 1);
-                    break;
-            }
-        });
-    }
-
-    setupMouseWheel() {
-        let wheelAccumulator = 0;
-        let wheelTimeout;
-        const threshold = 100; // Lower threshold = more sensitive
-        
-        document.addEventListener('wheel', (e) => {
-            // Disable horizontal scrolling behavior on mobile
-            if (window.innerWidth <= 968) return;
-            
-            if (this.isTransitioning) return;
-            
-            e.preventDefault();
-            
-            // Accumulate wheel delta for more responsive scrolling
-            wheelAccumulator += Math.abs(e.deltaY);
-            
-            clearTimeout(wheelTimeout);
-            
-            if (wheelAccumulator > threshold) {
-                if (e.deltaY > 0) {
-                    this.nextSection();
-                } else if (e.deltaY < 0) {
-                    this.previousSection();
-                }
-                wheelAccumulator = 0;
-            }
-            
-            // Reset accumulator after inactivity
-            wheelTimeout = setTimeout(() => {
-                wheelAccumulator = 0;
-            }, 150);
-        }, { passive: false });
-        
-        // Add trackpad/touchpad support for horizontal scrolling (desktop only)
-        document.addEventListener('wheel', (e) => {
-            // Disable horizontal scrolling behavior on mobile
-            if (window.innerWidth <= 968) return;
-            
-            if (this.isTransitioning || Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
-            
-            if (Math.abs(e.deltaX) > 50) {
-                e.preventDefault();
-                if (e.deltaX > 0) {
-                    this.nextSection();
-                } else {
-                    this.previousSection();
-                }
-            }
-        }, { passive: false });
-    }
-
-    setupTouchNavigation() {
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-        const minSwipeDistance = 50;
-        
-        document.addEventListener('touchstart', (e) => {
-            // Only track touch on desktop for horizontal navigation
-            if (window.innerWidth <= 968) return;
-            
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        document.addEventListener('touchend', (e) => {
-            // Only handle touch navigation on desktop
-            if (window.innerWidth <= 968) return;
-            
-            if (this.isTransitioning) return;
-            
-            touchEndX = e.changedTouches[0].clientX;
-            touchEndY = e.changedTouches[0].clientY;
-            
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
-            
-            // Only trigger if horizontal swipe is greater than vertical
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
-                if (deltaX > 0) {
-                    this.previousSection(); // Swipe right = previous
-                } else {
-                    this.nextSection(); // Swipe left = next
-                }
-            }
-        }, { passive: true });
     }
 
     setupProgressTracking() {
@@ -206,42 +52,26 @@ class AcademicPortfolio {
     }
 
     goToSection(index) {
-        if (index < 0 || index >= this.totalSections || index === this.currentSection || this.isTransitioning) {
+        if (index < 0 || index >= this.totalSections) {
             return;
         }
 
-        this.isTransitioning = true;
         this.currentSection = index;
-        
-        // Calculate transform
-        const translateX = -index * 100;
-        
-        // Apply transform based on screen size
-        if (window.innerWidth <= 968) {
-            // Mobile: scroll vertically
-            const targetPanel = document.getElementById(this.getSectionId(index));
-            if (targetPanel) {
-                targetPanel.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        } else {
-            // Desktop: horizontal scroll with enhanced easing
-            this.container.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            this.container.style.transform = `translateX(${translateX}vw)`;
-            
-            // Add parallax effect to background elements
-            this.addParallaxEffect(index);
+
+        // Hide all panels
+        document.querySelectorAll('.panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+
+        // Show the selected panel
+        const targetPanel = document.getElementById(this.getSectionId(index));
+        if (targetPanel) {
+            targetPanel.classList.add('active');
+            // Scroll to top of page when switching sections
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         this.updateUI();
-        this.animateCurrentSection();
-        
-        // Reset transition flag with slightly longer timeout for smoother feel
-        setTimeout(() => {
-            this.isTransitioning = false;
-        }, 400); // Reduced from 800ms for more responsive feel
     }
 
     getSectionId(index) {
@@ -249,43 +79,23 @@ class AcademicPortfolio {
         return sections[index];
     }
 
-    nextSection() {
-        if (this.currentSection < this.totalSections - 1) {
-            this.goToSection(this.currentSection + 1);
-        }
-    }
-
-    previousSection() {
-        if (this.currentSection > 0) {
-            this.goToSection(this.currentSection - 1);
-        }
-    }
-
     updateUI() {
         // Update navigation
         this.navButtons.forEach((btn, index) => {
             btn.classList.toggle('active', index === this.currentSection);
         });
-        
+
         // Update section number
         if (this.sectionNumber) {
             this.sectionNumber.textContent = String(this.currentSection + 1).padStart(2, '0');
         }
-        
+
         // Update progress bar
         if (this.progressFill) {
             const progress = ((this.currentSection + 1) / this.totalSections) * 100;
             this.progressFill.style.width = `${progress}%`;
         }
-        
-        // Update scroll buttons
-        if (this.scrollLeftBtn) {
-            this.scrollLeftBtn.classList.toggle('disabled', this.currentSection === 0);
-        }
-        if (this.scrollRightBtn) {
-            this.scrollRightBtn.classList.toggle('disabled', this.currentSection === this.totalSections - 1);
-        }
-        
+
         // Update page title
         const sectionTitles = [
             'Home - Academic Portfolio',
@@ -296,85 +106,6 @@ class AcademicPortfolio {
             'Contact - Academic Portfolio'
         ];
         document.title = sectionTitles[this.currentSection] || 'Academic Portfolio';
-    }
-
-    animateCurrentSection() {
-        const currentPanel = document.querySelector(`#${this.getSectionId(this.currentSection)}`);
-        if (!currentPanel) return;
-        
-        // Reset all animations
-        document.querySelectorAll('.panel').forEach(panel => {
-            panel.classList.remove('active');
-        });
-        
-        // Add active class to current panel
-        currentPanel.classList.add('active');
-        
-        // Animate elements in current section
-        const animateElements = currentPanel.querySelectorAll('.research-card, .tool-card, .blog-post, .cv-item, .contact-item');
-        
-        animateElements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            
-            setTimeout(() => {
-                element.style.transition = 'all 0.6s ease';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 100 + 300);
-        });
-    }
-
-    addParallaxEffect(index) {
-        // Add subtle parallax to floating elements
-        const floatingElements = document.querySelectorAll('.element');
-        floatingElements.forEach((element, i) => {
-            const offset = (index * 10) + (i * 5);
-            element.style.transform = `translateX(${offset}px) translateY(${Math.sin(index + i) * 10}px)`;
-            element.style.transition = 'transform 0.8s ease-out';
-        });
-        
-        // Add depth effect to sections
-        const panels = document.querySelectorAll('.panel');
-        panels.forEach((panel, i) => {
-            if (i !== index) {
-                const distance = Math.abs(i - index);
-                const scale = 1 - (distance * 0.05);
-                const opacity = 1 - (distance * 0.3);
-                panel.style.transform = `scale(${scale})`;
-                panel.style.opacity = Math.max(opacity, 0.3);
-                panel.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
-            } else {
-                panel.style.transform = 'scale(1)';
-                panel.style.opacity = '1';
-                panel.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
-            }
-        });
-    }
-
-    addAnimationObserver() {
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    // Add stagger animation effect
-                    const siblings = entry.target.parentElement?.children || [];
-                    Array.from(siblings).forEach((sibling, index) => {
-                        if (sibling !== entry.target) {
-                            sibling.style.animationDelay = `${index * 0.1}s`;
-                        }
-                    });
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        // Observe floating elements
-        document.querySelectorAll('.element').forEach(el => {
-            observer.observe(el);
-        });
     }
 }
 
@@ -593,58 +324,6 @@ class ContactForm {
     }
 }
 
-// Responsive Handler
-class ResponsiveHandler {
-    constructor() {
-        this.breakpoint = 968;
-        this.init();
-    }
-
-    init() {
-        this.handleResize();
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        });
-    }
-
-    handleResize() {
-        const container = document.querySelector('.horizontal-container');
-        const isMobile = window.innerWidth <= this.breakpoint;
-        
-        if (isMobile) {
-            // Reset transform for mobile
-            container.style.transform = 'translateX(0)';
-            container.style.flexDirection = 'column';
-            container.style.height = 'auto';
-            container.style.overflowY = 'auto';
-            
-            // Update panels for mobile
-            const panels = document.querySelectorAll('.panel');
-            panels.forEach(panel => {
-                panel.style.width = '100vw';
-                panel.style.height = 'auto';
-                panel.style.minHeight = 'calc(100vh - 80px)';
-            });
-        } else {
-            // Reset for desktop
-            container.style.flexDirection = 'row';
-            container.style.height = '100vh';
-            container.style.overflowY = 'hidden';
-            
-            const panels = document.querySelectorAll('.panel');
-            panels.forEach(panel => {
-                panel.style.width = '100vw';
-                panel.style.height = 'calc(100vh - 80px)';
-                panel.style.minHeight = 'auto';
-            });
-            
-            // Reapply current section transform
-            const currentSection = window.portfolio?.currentSection || 0;
-            const translateX = -currentSection * 100;
-            container.style.transform = `translateX(${translateX}vw)`;
-        }
-    }
-}
 
 // Add ripple animation CSS
 const style = document.createElement('style');
@@ -1349,30 +1028,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.portfolio = new AcademicPortfolio();
     new CardInteractions();
     new ContactForm();
-    new ResponsiveHandler();
     new RetroEasterEgg();
     new MobileNavigation();
-    
+
     console.log('🎓 Academic Portfolio initialized successfully!');
-    console.log('Navigation: Arrow keys, scroll wheel, or click navigation buttons');
-    console.log('Keyboard shortcuts: Home (first section), End (last section)');
+    console.log('Navigation: Click navigation buttons to switch between sections');
     console.log('🥚 Easter egg hint: Try clicking the profile photo...');
 });
-
-// Handle page visibility change
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        // Restart animations when page becomes visible
-        const currentPanel = document.querySelector(`#${window.portfolio?.getSectionId(window.portfolio.currentSection)}`);
-        if (currentPanel) {
-            window.portfolio?.animateCurrentSection();
-        }
-    }
-});
-
-// Prevent default touch behaviors on mobile
-document.addEventListener('touchmove', (e) => {
-    if (window.innerWidth > 968) {
-        e.preventDefault();
-    }
-}, { passive: false });

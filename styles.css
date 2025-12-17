@@ -15,7 +15,7 @@ body {
     background: #FDF5E6;
     color: #1a1a1a;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 /* Navigation */
@@ -107,25 +107,21 @@ body {
 }
 
 /* Main Container */
-.horizontal-container {
-    display: flex;
-    height: 100vh;
-    width: 700vw;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.content-container {
+    width: 100%;
     padding-top: 80px;
-    perspective: 1000px;
 }
 
 .panel {
-    width: 100vw;
-    height: calc(100vh - 80px);
-    display: flex;
-    align-items: center;
-    padding: 0 4rem;
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    display: none;
+    padding: 2rem 4rem;
     position: relative;
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+}
+
+.panel.active {
+    display: block;
 }
 
 .panel-content {
@@ -1112,12 +1108,7 @@ body {
 
 /* Scroll Indicators */
 .scroll-indicators {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 1000;
-    display: flex;
-    gap: 1rem;
+    display: none;
 }
 
 .scroll-arrow {
@@ -1213,26 +1204,16 @@ body {
         overflow-y: auto;
         overflow-x: hidden;
     }
-    
-    .horizontal-container {
-        flex-direction: column;
-        width: 100vw;
-        height: auto;
-        transform: none !important;
-        transition: none;
-        overflow-y: visible;
-        overflow-x: hidden;
+
+    .content-container {
         padding-top: 0;
     }
-    
+
     .panel {
-        width: 100vw;
-        height: auto;
+        width: 100%;
         min-height: 100vh;
         padding: 1.5rem 1rem;
         box-sizing: border-box;
-        transform: none !important;
-        opacity: 1 !important;
         padding-top: 80px;
     }
     
