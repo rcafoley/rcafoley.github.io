@@ -6,13 +6,14 @@ class AcademicPortfolio {
         this.navButtons = document.querySelectorAll('.nav-btn');
         this.sectionNumber = document.querySelector('.section-number');
 
+        console.log('Portfolio initialized with', this.navButtons.length, 'nav buttons');
+
         this.init();
     }
 
     init() {
         this.setupNavigation();
         this.setupProgressTracking();
-        this.updateUI();
         this.loadBlogPosts();
 
         // Show first section by default
@@ -20,11 +21,27 @@ class AcademicPortfolio {
     }
 
     setupNavigation() {
-        this.navButtons.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                this.goToSection(index);
+        this.navButtons.forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionName = btn.getAttribute('data-section');
+                console.log('Button clicked for section:', sectionName);
+
+                const sectionIndex = this.getSectionIndex(sectionName);
+                console.log('Section index:', sectionIndex);
+
+                if (sectionIndex !== -1) {
+                    this.goToSection(sectionIndex);
+                }
             });
         });
+
+        console.log('Navigation setup complete for', this.navButtons.length, 'buttons');
+    }
+
+    getSectionIndex(sectionName) {
+        const sections = ['home', 'research', 'tools', 'blog', 'cv', 'contact'];
+        return sections.indexOf(sectionName);
     }
 
     setupProgressTracking() {
@@ -53,22 +70,29 @@ class AcademicPortfolio {
 
     goToSection(index) {
         if (index < 0 || index >= this.totalSections) {
+            console.log('Invalid section index:', index);
             return;
         }
 
+        console.log('Going to section:', index, this.getSectionId(index));
         this.currentSection = index;
 
         // Hide all panels
         document.querySelectorAll('.panel').forEach(panel => {
             panel.classList.remove('active');
+            console.log('Hiding panel:', panel.id);
         });
 
         // Show the selected panel
         const targetPanel = document.getElementById(this.getSectionId(index));
+        console.log('Target panel:', targetPanel);
         if (targetPanel) {
             targetPanel.classList.add('active');
+            console.log('Showing panel:', targetPanel.id);
             // Scroll to top of page when switching sections
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            console.error('Panel not found for section:', this.getSectionId(index));
         }
 
         this.updateUI();
@@ -334,16 +358,10 @@ style.textContent = `
             opacity: 0;
         }
     }
-    
-    .panel.active {
-        z-index: 1;
-    }
-    
-    /* Smooth scrolling for mobile */
-    @media (max-width: 968px) {
-        html {
-            scroll-behavior: smooth;
-        }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
     }
 `;
 document.head.appendChild(style);

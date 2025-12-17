@@ -115,13 +115,13 @@ body {
 .panel {
     width: 100%;
     min-height: calc(100vh - 80px);
-    display: none;
+    display: none !important;
     padding: 2rem 4rem;
     position: relative;
 }
 
 .panel.active {
-    display: block;
+    display: block !important;
 }
 
 .panel-content {
