@@ -8,6 +8,7 @@
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
       "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 200 | jsonify }},
       "tags": {{ post.tags | jsonify }},
+      "thumbnail": {{ post.thumbnail | jsonify }},
       "url": "{{ site.baseurl }}{{ post.url }}",
       "content": {{ post.content | jsonify }}
     }{% unless forloop.last %},{% endunless %}

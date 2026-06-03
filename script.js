@@ -769,37 +769,64 @@ This is an exciting time to be working in this field, as we're beginning to brid
 
     displayPosts(posts) {
         if (!this.blogContainer || !posts.length) return;
-        
-        this.blogContainer.innerHTML = posts.map(post => this.createPostHTML(post)).join('');
+
+        this.blogContainer.innerHTML = posts
+            .map((post, i) => this.createPostHTML(post, i === 0))
+            .join('');
     }
 
-    createPostHTML(post) {
-        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+    createPostHTML(post, featured = false) {
+        const formattedDate = post.date ? new Date(post.date).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
-        });
+        }) : '';
 
         const tags = Array.isArray(post.tags) ? post.tags : (post.tags ? post.tags.split(',') : []);
-        
-        // Ensure we only show the excerpt, not the full content
-        const displayExcerpt = post.excerpt || (post.content ? post.content.substring(0, 150) + '...' : '');
 
-        return `
-            <article class="blog-card">
+        // Ensure we only show the excerpt, not the full content
+        const displayExcerpt = post.excerpt
+            || (post.content ? post.content.replace(/<[^>]+>/g, '').substring(0, 160).trim() + '...' : '');
+
+        const tagHTML = tags.length
+            ? `<div class="blog-tags">${tags.map(tag => `<span class="blog-tag">${String(tag).trim()}</span>`).join('')}</div>`
+            : '';
+
+        const onclick = `openBlogPost(\`${post.title.replace(/`/g, '\\`')}\`, '${formattedDate}', \`${(post.content || post.excerpt || '').replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)`;
+
+        const thumb = post.thumbnail;
+
+        // Featured layout: only when the lead post actually has an image
+        if (featured && thumb) {
+            return `
+            <article class="blog-card featured">
+                <div class="blog-thumb"><img src="${thumb}" alt="${post.title}"></div>
                 <div class="blog-card-content">
                     <div class="blog-meta">
+                        <span class="blog-badge">Featured</span>
                         <span class="blog-date">${formattedDate}</span>
-                        <div class="blog-tags">
-                            ${tags.map(tag => `<span class="blog-tag">${tag.trim()}</span>`).join('')}
-                        </div>
                     </div>
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-excerpt">${displayExcerpt}</p>
-                    <button class="blog-read-more btn-primary" onclick="openBlogPost(\`${post.title.replace(/`/g, '\\`')}\`, '${formattedDate}', \`${(post.content || post.excerpt).replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)">Read More</button>
+                    ${tagHTML}
+                    <button class="blog-read-more" onclick="${onclick}">Read more &rarr;</button>
                 </div>
-            </article>
-        `;
+            </article>`;
+        }
+
+        const topThumb = thumb ? `<div class="blog-thumb"><img src="${thumb}" alt="${post.title}"></div>` : '';
+
+        return `
+            <article class="blog-card">
+                ${topThumb}
+                <div class="blog-card-content">
+                    <span class="blog-date">${formattedDate}</span>
+                    <h3 class="blog-title">${post.title}</h3>
+                    <p class="blog-excerpt">${displayExcerpt}</p>
+                    ${tagHTML}
+                    <button class="blog-read-more" onclick="${onclick}">Read more &rarr;</button>
+                </div>
+            </article>`;
     }
 }
 
@@ -847,21 +874,22 @@ function openBlogPost(title, date, content) {
     
     modal.innerHTML = `
         <div style="
-            background: #FDF5E6; 
-            padding: 3rem; 
-            border-radius: 16px; 
-            max-width: 800px; 
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 16px;
+            max-width: 800px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            border: 2px solid #E08F71;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.25);
             position: relative;
         ">
             <button onclick="this.parentElement.parentElement.remove()" style="
                 position: absolute;
                 top: 1rem;
                 right: 1rem;
-                background: #E08F71;
+                background: #E65100;
                 color: white;
                 border: none;
                 border-radius: 50%;
@@ -874,8 +902,8 @@ function openBlogPost(title, date, content) {
                 justify-content: center;
                 font-weight: bold;
             ">&times;</button>
-            <h1 style="color: #E08F71; margin-bottom: 0.5rem; font-size: 2rem;">${title}</h1>
-            <p style="color: #666; margin-bottom: 2rem; font-style: italic;">${date}</p>
+            <h1 style="color: #E65100; margin-bottom: 0.5rem; font-size: 2rem;">${title}</h1>
+            <p style="color: #9a8f7d; margin-bottom: 2rem; font-style: italic;">${date}</p>
             <div class="blog-post-content" style="line-height: 1.6;">${processedContent}</div>
         </div>
     `;
