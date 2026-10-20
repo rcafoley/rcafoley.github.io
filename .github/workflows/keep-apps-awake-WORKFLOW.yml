@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  actions: write # lets the keepalive step stop GitHub disabling this schedule
 
 jobs:
   wake:
@@ -35,9 +34,3 @@ jobs:
         with:
           name: wake-screenshots
           path: screenshots/
-
-      # GitHub pauses scheduled workflows after 60 days with no repo activity.
-      # This keeps the schedule enabled without making dummy commits.
-      - name: Keep schedule alive
-        if: always()
-        uses: gautamkrishnar/keepalive-workflow@v2
