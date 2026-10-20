@@ -1,0 +1,43 @@
+name: Keep Streamlit tools awake
+
+on:
+  schedule:
+    # Every 6 hours (UTC). Apps sleep after 12 h without traffic.
+    - cron: "23 */6 * * *"
+  workflow_dispatch: # adds a "Run workflow" button for manual runs
+
+permissions:
+  contents: read
+  actions: write # lets the keepalive step stop GitHub disabling this schedule
+
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Visit and wake apps
+        run: python .github/scripts/visit_apps_SCRIPT.py
+
+      - name: Upload screenshots if something failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wake-screenshots
+          path: screenshots/
+
+      # GitHub pauses scheduled workflows after 60 days with no repo activity.
+      # This keeps the schedule enabled without making dummy commits.
+      - name: Keep schedule alive
+        if: always()
+        uses: gautamkrishnar/keepalive-workflow@v2
