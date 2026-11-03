@@ -12,6 +12,7 @@ from playwright.sync_api import sync_playwright
 APPS = [
     "https://foleysett.streamlit.app/",
     "https://foleyforceprofileapp.streamlit.app/",
+    "https://foleysrac.streamlit.app/",
 ]
 
 BOOT_TIMEOUT_S = 240  # cold starts can take a few minutes
